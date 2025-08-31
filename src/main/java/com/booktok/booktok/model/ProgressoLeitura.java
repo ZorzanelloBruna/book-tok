@@ -11,12 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class ProgressoLeitura {
@@ -33,9 +31,20 @@ public class ProgressoLeitura {
 	@JoinColumn(name = "livro_id", nullable = false)
 	private Livro livroId;
 	
-	@Column(nullable = false)
+	@Column(name = "pagina_atual",nullable = false)
 	private Integer paginaAtual;
 	
-	@Column(nullable = false)
+	@Column(name = "data_registro", nullable = false)
 	private LocalDateTime dataRegistro; 
+	
+	public ProgressoLeitura() {
+        this.dataRegistro = LocalDateTime.now();
+    }
+    
+    public ProgressoLeitura(Usuario usuario, Livro livro, Integer paginaAtual) {
+        this.usuarioId = usuario;
+        this.livroId = livro;
+        this.paginaAtual = paginaAtual;
+        this.dataRegistro = LocalDateTime.now();
+    }
 }
