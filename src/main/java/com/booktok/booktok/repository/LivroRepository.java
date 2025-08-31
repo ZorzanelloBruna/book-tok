@@ -6,4 +6,5 @@ import com.booktok.booktok.model.Livro;
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
+	Livro findByIsbn(String Isbn);
 }

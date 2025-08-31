@@ -24,4 +24,8 @@ public class GlobalExceptionHandler {
 	    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 	            .body("ID inválido: " + ex.getMessage());
 	}
+	@ExceptionHandler(IsbnJaCadastradoException.class)
+	public ResponseEntity<String> handleIsbnJaCadastrado(IsbnJaCadastradoException ex) {
+	    return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+	}
 }

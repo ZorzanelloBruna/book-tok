@@ -21,7 +21,6 @@ import com.booktok.booktok.dto.response.UsuarioResponse;
 import com.booktok.booktok.service.UsuarioService;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @RestController
