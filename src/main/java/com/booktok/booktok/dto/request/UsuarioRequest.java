@@ -16,6 +16,6 @@ public class UsuarioRequest {
 	@NotBlank(message = "Campo e-mail é obrigatório.")
 	private String email;
 	
-	private boolean verSpoilers = false;
+	private boolean verSpoilers;
 	
 }
