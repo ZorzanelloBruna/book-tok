@@ -27,18 +27,18 @@ public class Comentario {
 	
 	@ManyToOne
 	@JoinColumn(name = "livro_id", nullable = false)
-	private Livro livroId;
+	private Livro livro;
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", nullable = false)
-	private Usuario usuarioId;
+	private Usuario usuario;
 	
-	@Column(nullable = false, length = 500)
+	@Column(name = "mensagem" ,nullable = false, length = 500)
 	private String mensagem;
 	
-	@Column(nullable = false)
+	@Column(name="data_comentario",nullable = false)
 	private LocalDateTime dataComentario;
 	
-	private boolean spoiler; 
+	private boolean spoiler = false; 
 
 }
