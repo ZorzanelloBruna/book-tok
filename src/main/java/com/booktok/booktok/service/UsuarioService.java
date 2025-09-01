@@ -54,7 +54,7 @@ public class UsuarioService {
 	
 	public void deletarUsuario(Long id) {
 		if(!repository.existsById(id)) {
-			new EntidadeNaoEncontradaException("Usuario", id);
+			throw new EntidadeNaoEncontradaException("Usuario", id);
 		}
 		repository.deleteById(id);		
 	}

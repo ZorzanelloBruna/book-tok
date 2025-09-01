@@ -56,7 +56,7 @@ public class LivroService {
 	
 	public void deletarLivro(Long id) {
 		if(!repository.existsById(id)) {
-			new EntidadeNaoEncontradaException("Livro", id);
+			throw new EntidadeNaoEncontradaException("Livro", id);
 		}
 		repository.deleteById(id);
 	}

@@ -25,11 +25,11 @@ public class ProgressoLeitura {
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", nullable = false)
-	private Usuario usuarioId;
+	private Usuario usuario;
 	
 	@ManyToOne
 	@JoinColumn(name = "livro_id", nullable = false)
-	private Livro livroId;
+	private Livro livro;
 	
 	@Column(name = "pagina_atual",nullable = false)
 	private Integer paginaAtual;
@@ -42,8 +42,8 @@ public class ProgressoLeitura {
     }
     
     public ProgressoLeitura(Usuario usuario, Livro livro, Integer paginaAtual) {
-        this.usuarioId = usuario;
-        this.livroId = livro;
+        this.usuario = usuario;
+        this.livro = livro;
         this.paginaAtual = paginaAtual;
         this.dataRegistro = LocalDateTime.now();
     }
