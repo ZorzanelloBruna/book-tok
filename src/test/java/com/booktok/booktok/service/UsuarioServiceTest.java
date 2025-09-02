@@ -97,7 +97,7 @@ public class UsuarioServiceTest {
             () -> usuarioService.buscarUsuarioPorID(1L)
         );
 
-        assertEquals("Usuario com ID 1 não encontrado.", ex.getMessage());
+        assertEquals("Usuario com ID 1 nao encontrado.", ex.getMessage());
         verify(repository).findById(1L);
     }
 
@@ -160,7 +160,7 @@ public class UsuarioServiceTest {
             () -> usuarioService.deletarUsuario(1L)
         );
 
-        assertEquals("Usuario com ID 1 não encontrado.", exception.getMessage());
+        assertEquals("Usuario com ID 1 nao encontrado.", exception.getMessage());
         verify(repository).existsById(1L);
         verify(repository, never()).deleteById(any());
     }

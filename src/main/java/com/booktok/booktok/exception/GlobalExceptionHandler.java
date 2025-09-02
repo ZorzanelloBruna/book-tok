@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		response.setTimestamp(LocalDateTime.now().toString());
 		response.setPath(request.getRequestURI());
-		response.setMessage("Erro de validação");
+		response.setMessage("Erro de validacao");
 		response.setErrors(validationErrors);
 
 		return ResponseEntity.badRequest().body(response);
@@ -67,29 +67,29 @@ public class GlobalExceptionHandler {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setTimestamp(LocalDateTime.now().toString());
         response.setPath(request.getRequestURI());
-        response.setMessage("ID inválido: " + ex.getMessage());
+        response.setMessage("ID invalido: " + ex.getMessage());
         
 	    return ResponseEntity.badRequest().body(response);
 	}
 	@ExceptionHandler(AcessoNegadoException.class)
-	public ResponseEntity<String> handleAcessoNegado(AcessoNegadoException ex,
+	public ResponseEntity<ErrorResponse> handleAcessoNegado(AcessoNegadoException ex,
 													 HttpServletRequest request) {
-		ErrorResponse response = new ErrorResponse();
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-        response.setTimestamp(LocalDateTime.now().toString());
-        response.setPath(request.getRequestURI());
-        response.setMessage(ex.getMessage());
-	    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
-	}
-	
-	@ExceptionHandler(IsbnJaCadastradoException.class)
-	public ResponseEntity<String> handleIsbnJaCadastrado(IsbnJaCadastradoException ex,
-														 HttpServletRequest request) {
 		ErrorResponse response = new ErrorResponse();
         response.setStatus(HttpStatus.CONFLICT.value());
         response.setTimestamp(LocalDateTime.now().toString());
         response.setPath(request.getRequestURI());
         response.setMessage(ex.getMessage());
-	    return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+	    return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+	}
+	
+	@ExceptionHandler(IsbnJaCadastradoException.class)
+	public ResponseEntity<ErrorResponse> handleIsbnJaCadastrado(IsbnJaCadastradoException ex,
+														 HttpServletRequest request) {
+		ErrorResponse response = new ErrorResponse();
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.setTimestamp(LocalDateTime.now().toString());
+        response.setPath(request.getRequestURI());
+        response.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
 	}
 }

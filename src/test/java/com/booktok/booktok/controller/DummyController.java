@@ -1,12 +1,22 @@
-package com.booktok.booktok.exception;
+package com.booktok.booktok.controller;
 
 import java.util.Set;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.booktok.booktok.dto.request.UsuarioRequest;
+import com.booktok.booktok.exception.AcessoNegadoException;
+import com.booktok.booktok.exception.EmailJaCadastradoException;
+import com.booktok.booktok.exception.EntidadeNaoEncontradaException;
+import com.booktok.booktok.exception.IsbnJaCadastradoException;
+
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/dummy")
@@ -29,11 +39,15 @@ public class DummyController {
 
     @GetMapping("/acesso")
     public void acesso() {
-        throw new AcessoNegadoException("Você não tem permissão");
+        throw new AcessoNegadoException("Voce nao tem permissao");
     }
 
     @GetMapping("/isbn")
     public void isbn() {
         throw new IsbnJaCadastradoException("1234567890", "O diário de uma Paixão");
+    }
+    @PostMapping("/validacao")
+    public ResponseEntity<String> validar(@RequestBody @Valid UsuarioRequest request) {
+        return ResponseEntity.ok("OK");
     }
 }

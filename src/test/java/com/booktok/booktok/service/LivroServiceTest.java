@@ -101,7 +101,7 @@ public class LivroServiceTest {
             () -> livroService.buscarLivroPorId(1L)
         );
 
-        assertEquals("Livro com ID 1 não encontrado.", exception.getMessage());
+        assertEquals("Livro com ID 1 nao encontrado.", exception.getMessage());
         verify(repository).findById(1L);
     }
 
