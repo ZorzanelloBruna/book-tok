@@ -76,21 +76,18 @@ public class ProgressoLeituraService {
 		if (!usuarioRepository.existsById(request.getUsuarioId())) {
 	        throw new EntidadeNaoEncontradaException("Usuário", request.getUsuarioId());
 	    }
-		// Verifica se o progresso existe
+	
 	    ProgressoLeitura progresso = progressoRepository.findById(id)
 	            .orElseThrow(() -> new EntidadeNaoEncontradaException("Progresso", id));
 	    
-	    // Verifica se o usuário da requisição é o dono do progresso
 	    if (!progresso.getUsuario().getId().equals(request.getUsuarioId())) {
 	        throw new AcessoNegadoException("Você só pode atualizar seus próprios progressos");
 	    }
 	    
-	    // Verifica se o livro existe (opcional, mas recomendado)
 	    if (!livroRepository.existsById(request.getLivroId())) {
 	        throw new EntidadeNaoEncontradaException("Livro", request.getLivroId());
 	    }
 	    
-	    // Verifica se o livro do progresso é o mesmo da requisição
 	    if (!progresso.getLivro().getId().equals(request.getLivroId())) {
 	        throw new AcessoNegadoException("Não é permitido alterar o livro do progresso");
 	    }
