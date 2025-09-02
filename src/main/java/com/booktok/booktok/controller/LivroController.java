@@ -19,6 +19,7 @@ import com.booktok.booktok.dto.request.LivroRequest;
 import com.booktok.booktok.dto.response.LivroResponse;
 import com.booktok.booktok.service.LivroService;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @RestController
@@ -30,7 +31,7 @@ public class LivroController {
 	LivroService service;
 	
 	@PostMapping
-	public ResponseEntity<LivroResponse> salvarLivro(@RequestBody LivroRequest request) {
+	public ResponseEntity<LivroResponse> salvarLivro(@Valid @RequestBody LivroRequest request) {
 		LivroResponse livro = service.salvarLivro(request);
 		return new ResponseEntity<>(livro, HttpStatus.CREATED);
 	}
@@ -49,7 +50,7 @@ public class LivroController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<LivroResponse> atualizarLivro(@PathVariable @NotNull Long id,
-														@RequestBody LivroRequest request) {
+														@Valid @RequestBody LivroRequest request) {
 		LivroResponse livro = service.atualizarLivro(id, request);
 		return ResponseEntity.ok(livro);
 	}

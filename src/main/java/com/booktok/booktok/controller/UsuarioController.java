@@ -32,7 +32,7 @@ public class UsuarioController {
 	UsuarioService service;
 	
 	@PostMapping
-	public ResponseEntity<UsuarioResponse> salvarUsuario(@RequestBody @Valid UsuarioRequest request) {
+	public ResponseEntity<UsuarioResponse> salvarUsuario(@Valid @RequestBody UsuarioRequest request) {
 		UsuarioResponse novoUsuario = service.criarUsuario(request);
 		return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
 	}
@@ -51,7 +51,7 @@ public class UsuarioController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<UsuarioResponse> atualizarUsuario(@PathVariable @NotNull Long id,
-															@RequestBody @Valid UsuarioRequest request) {
+															@Valid @RequestBody  UsuarioRequest request) {
 		UsuarioResponse usuario = service.atualizarUsuario(id, request);
 		return ResponseEntity.ok(usuario);
 	}

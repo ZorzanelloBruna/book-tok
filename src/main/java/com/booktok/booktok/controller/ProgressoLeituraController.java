@@ -31,7 +31,7 @@ public class ProgressoLeituraController {
 	ProgressoLeituraService service;
 	
 	@PostMapping
-	public ResponseEntity<ProgressoLeituraResponse> registrarProgresso(@RequestBody @Valid ProgressoLeituraRequest request) {
+	public ResponseEntity<ProgressoLeituraResponse> registrarProgresso(@Valid @RequestBody ProgressoLeituraRequest request) {
 		ProgressoLeituraResponse progresso = service.registrarProgresso(request);
 		return new ResponseEntity<>(progresso, HttpStatus.CREATED);		
 	}
@@ -50,7 +50,7 @@ public class ProgressoLeituraController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<ProgressoLeituraResponse> atualizarProgresso(@PathVariable @NotNull Long id,
-																	   @RequestBody ProgressoLeituraRequest request) {
+																	   @Valid @RequestBody ProgressoLeituraRequest request) {
 		ProgressoLeituraResponse progressoAtualizado = service.atualizarProgresso(id, request);
 		return ResponseEntity.ok(progressoAtualizado);
 	}
