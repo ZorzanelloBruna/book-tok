@@ -1,6 +1,7 @@
 package com.booktok.booktok.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class LivroRequest {
 	
 	private String resumo;
 	
-	@NotBlank(message = "Campo ano de Publicação é obrigatório")
+	@NotNull(message = "Campo ano de Publicação é obrigatório")
 	private int anoPublicacao;
 	
 	@NotBlank(message = "Campo ISBN é obrigatório.")

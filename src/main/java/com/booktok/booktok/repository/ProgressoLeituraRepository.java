@@ -11,11 +11,11 @@ import com.booktok.booktok.model.Usuario;
 
 public interface ProgressoLeituraRepository extends JpaRepository<ProgressoLeitura, Long>{
 
-	List<ProgressoLeitura> findByUsuarioId(Usuario usuario);
+	List<ProgressoLeitura> findByUsuario(Usuario usuario);
 	
-	List<ProgressoLeitura> findByLivroId(Livro livro);
+	List<ProgressoLeitura> findByLivro(Livro livro);
 	
-	Optional<ProgressoLeitura> findByUsuarioIdAndLivroId(Usuario usuario, Livro livro);
+	Optional<ProgressoLeitura> findByUsuarioAndLivro(Usuario usuario, Livro livro);
 	
-	boolean existsByUsuarioIdAndLivroId(Usuario usuario, Livro livro);
+	boolean existsByUsuarioAndLivro(Usuario usuario, Livro livro);
 }

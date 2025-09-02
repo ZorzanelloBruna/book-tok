@@ -77,7 +77,7 @@ public class ProgressoLeituraServiceTest {
         request.setLivroId(1L);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(livroRepository.findById(1L)).thenReturn(Optional.of(livro));
-        when(progressoRepository.findByUsuarioIdAndLivroId(usuario, livro)).thenReturn(Optional.of(progresso));
+        when(progressoRepository.findByUsuarioAndLivro(usuario, livro)).thenReturn(Optional.of(progresso));
         when(progressoRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         ProgressoLeituraResponse result = progressoService.registrarProgresso(request);
@@ -92,7 +92,7 @@ public class ProgressoLeituraServiceTest {
         request.setLivroId(1L);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(livroRepository.findById(1L)).thenReturn(Optional.of(livro));
-        when(progressoRepository.findByUsuarioIdAndLivroId(usuario, livro)).thenReturn(Optional.empty());
+        when(progressoRepository.findByUsuarioAndLivro(usuario, livro)).thenReturn(Optional.empty());
         when(progressoRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         ProgressoLeituraResponse result = progressoService.registrarProgresso(request);
@@ -105,32 +105,35 @@ public class ProgressoLeituraServiceTest {
     @Test
     void listarProgressosPorUsuario_ComUsuarioExistente_DeveRetornarLista() {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
-        when(progressoRepository.findByUsuarioId(usuario)).thenReturn(List.of(progresso));
+        when(progressoRepository.findByUsuario(usuario)).thenReturn(List.of(progresso));
 
         List<ProgressoLeituraResponse> result = progressoService.listarProgressosPorUsuario(1L);
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        verify(progressoRepository).findByUsuarioId(usuario);
+        verify(progressoRepository).findByUsuario(usuario);
     }
 
     
     @Test
     void listarProgressosPorLivro_ComLivroExistente_DeveRetornarLista() {
         when(livroRepository.findById(1L)).thenReturn(Optional.of(livro));
-        when(progressoRepository.findByLivroId(livro)).thenReturn(List.of(progresso));
+        when(progressoRepository.findByLivro(livro)).thenReturn(List.of(progresso));
 
         List<ProgressoLeituraResponse> result = progressoService.listarProgressosPorLivro(1L);
 
         assertNotNull(result);
         assertEquals(1, result.size());
         verify(livroRepository).findById(1L);
-        verify(progressoRepository).findByLivroId(livro);
+        verify(progressoRepository).findByLivro(livro);
     }
    
     @Test
     void atualizarProgresso_ComProgressoExistente_DeveAtualizarERetornar() {
+        request.setLivroId(1L);
+
         when(usuarioRepository.existsById(1L)).thenReturn(true);
+        when(livroRepository.existsById(1L)).thenReturn(true);
         when(progressoRepository.findById(1L)).thenReturn(Optional.of(progresso));
         when(progressoRepository.save(any(ProgressoLeitura.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -138,14 +141,18 @@ public class ProgressoLeituraServiceTest {
 
         assertNotNull(result);
         verify(usuarioRepository).existsById(1L);
+        verify(livroRepository).existsById(1L); 
         verify(progressoRepository).findById(1L);
         verify(progressoRepository).save(progresso);
         assertEquals(100, progresso.getPaginaAtual());
     }
 
+
     @Test
     void atualizarProgresso_ComUsuarioNaoDono_DeveLancarExcecaoAcessoNegado() {
         request.setUsuarioId(2L);
+        request.setLivroId(1L);
+        
         when(usuarioRepository.existsById(2L)).thenReturn(true);
         when(progressoRepository.findById(1L)).thenReturn(Optional.of(progresso));
 
@@ -157,27 +164,29 @@ public class ProgressoLeituraServiceTest {
         assertEquals("Você só pode atualizar seus próprios progressos", exception.getMessage());
         verify(usuarioRepository).existsById(2L);
         verify(progressoRepository).findById(1L);
-        verify(progressoRepository, never()).save(any());
+        verify(livroRepository, never()).existsById(any());
+        verify(progressoRepository, never()).save(any()); 
     }
-
     @Test
     void listarProgressosPorLivro_ComLivroSemProgressos_DeveRetornarListaVazia() {
         when(livroRepository.findById(1L)).thenReturn(Optional.of(livro));
-        when(progressoRepository.findByLivroId(livro)).thenReturn(List.of()); // ✅ Lista vazia
+        when(progressoRepository.findByLivro(livro)).thenReturn(List.of()); // ✅ Lista vazia
 
         List<ProgressoLeituraResponse> result = progressoService.listarProgressosPorLivro(1L);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
         verify(livroRepository).findById(1L);
-        verify(progressoRepository).findByLivroId(livro);
+        verify(progressoRepository).findByLivro(livro);
     }
   
     @Test
     void atualizarProgresso_ComUsuarioInexistente_DeveLancarExcecao() {
         request.setUsuarioId(999L);
-        when(usuarioRepository.existsById(999L)).thenReturn(false);
+        request.setLivroId(1L); 
 
+        when(usuarioRepository.existsById(999L)).thenReturn(false);
+  
         Exception exception = assertThrows(
             EntidadeNaoEncontradaException.class,
             () -> progressoService.atualizarProgresso(1L, request)
@@ -185,6 +194,7 @@ public class ProgressoLeituraServiceTest {
 
         assertEquals("Usuário com ID 999 nao encontrado.", exception.getMessage());
         verify(usuarioRepository).existsById(999L);
+        verify(livroRepository, never()).existsById(any());
         verify(progressoRepository, never()).findById(any());
     }
 
@@ -195,11 +205,11 @@ public class ProgressoLeituraServiceTest {
         livroEspecifico.setTitulo("Livro Específico");
         
         when(livroRepository.findById(2L)).thenReturn(Optional.of(livroEspecifico));
-        when(progressoRepository.findByLivroId(livroEspecifico)).thenReturn(List.of(progresso));
+        when(progressoRepository.findByLivro(livroEspecifico)).thenReturn(List.of(progresso));
 
         progressoService.listarProgressosPorLivro(2L);
 
-        verify(progressoRepository).findByLivroId(livroEspecifico);
+        verify(progressoRepository).findByLivro(livroEspecifico);
     }
     
     @Test

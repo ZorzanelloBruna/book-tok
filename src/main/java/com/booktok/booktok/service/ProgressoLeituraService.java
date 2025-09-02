@@ -37,7 +37,7 @@ public class ProgressoLeituraService {
 		Livro livro = livroRepository.findById(request.getLivroId())
 				.orElseThrow(() -> new EntidadeNaoEncontradaException("Livro", request.getLivroId()));
 		Optional<ProgressoLeitura> progressoExistente = 
-                progressoRepository.findByUsuarioIdAndLivroId(usuario, livro);
+                progressoRepository.findByUsuarioAndLivro(usuario, livro);
         
         ProgressoLeitura progresso;
         if(progressoExistente.isPresent()) {
@@ -56,7 +56,7 @@ public class ProgressoLeituraService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário", usuarioId));
         
-        return progressoRepository.findByUsuarioId(usuario)
+        return progressoRepository.findByUsuario(usuario)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -66,7 +66,7 @@ public class ProgressoLeituraService {
         Livro livro = livroRepository.findById(livroId)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Livro", livroId));
         
-        return progressoRepository.findByLivroId(livro)
+        return progressoRepository.findByLivro(livro)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
@@ -74,14 +74,26 @@ public class ProgressoLeituraService {
 	
 	public ProgressoLeituraResponse atualizarProgresso(Long id, ProgressoLeituraRequest request) {
 		if (!usuarioRepository.existsById(request.getUsuarioId())) {
-            throw new EntidadeNaoEncontradaException("Usuário", request.getUsuarioId());
-        }
-        ProgressoLeitura progresso = progressoRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Progresso", id));
-        
-        if (!progresso.getUsuario().getId().equals(request.getUsuarioId())) {
-            throw new AcessoNegadoException("Você só pode atualizar seus próprios progressos");
-        }
+	        throw new EntidadeNaoEncontradaException("Usuário", request.getUsuarioId());
+	    }
+		// Verifica se o progresso existe
+	    ProgressoLeitura progresso = progressoRepository.findById(id)
+	            .orElseThrow(() -> new EntidadeNaoEncontradaException("Progresso", id));
+	    
+	    // Verifica se o usuário da requisição é o dono do progresso
+	    if (!progresso.getUsuario().getId().equals(request.getUsuarioId())) {
+	        throw new AcessoNegadoException("Você só pode atualizar seus próprios progressos");
+	    }
+	    
+	    // Verifica se o livro existe (opcional, mas recomendado)
+	    if (!livroRepository.existsById(request.getLivroId())) {
+	        throw new EntidadeNaoEncontradaException("Livro", request.getLivroId());
+	    }
+	    
+	    // Verifica se o livro do progresso é o mesmo da requisição
+	    if (!progresso.getLivro().getId().equals(request.getLivroId())) {
+	        throw new AcessoNegadoException("Não é permitido alterar o livro do progresso");
+	    }
         
         progresso.setPaginaAtual(request.getPaginaAtual());
         progresso.setDataRegistro(LocalDateTime.now());
