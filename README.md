@@ -516,5 +516,6 @@
 
 ## COBERTURA DE TESTES - 91%
 *Ferramenta Utilizada na cobertura de testes : jacoco*
-*Localizada em : booktok\target\site\jacoco\index.xml
+<!---->
+*Localizada em : booktok\target\site\jacoco\index.xml*
 
