@@ -50,7 +50,7 @@
 ### Atualizar Usuário
 <!---->
 **URL da requisição:**
-#### PUT: http://localhost:8080/api/usuario/{usuarioId}
+#### PUT: http://localhost:8080/api/usuario/{id}
 
 **Body da requisição (JSON):**
 
@@ -74,7 +74,7 @@
 ### Buscar usuário por ID
 <!---->
 **URL da requisição:**
-#### GET: http://localhost:8080/api/usuario/{usuarioId}
+#### GET: http://localhost:8080/api/usuario/{id}
 
 **Body da requisição (JSON):**
 
@@ -120,7 +120,7 @@
 ### Remover Usuário
 <!---->
 **URL da requisição:**
-#### DELETE: http://localhost:8080/api/usuario/{usuarioId}
+#### DELETE: http://localhost:8080/api/usuario/{id}
 
 **Body da requisição (JSON):**
 
@@ -162,7 +162,7 @@
 ### Buscar Livro por ID
 <!---->
 **URL da requisição:**
-#### GET: http://localhost:8080/api/livro/{livroId}
+#### GET: http://localhost:8080/api/livro/{id}
 
 **Body da requisição (JSON):**
 
@@ -217,7 +217,7 @@
 ### Atualizar Livro
 <!---->
 **URL da requisição:**
-#### PUT: http://localhost:8080/api/livro/{livroId}
+#### PUT: http://localhost:8080/api/livro/{id}
 
 **Body da requisição (JSON):**
 
@@ -246,7 +246,7 @@
 ### Deletar Livro
 <!---->
 **URL da requisição:**
-#### DELETE: http://localhost:8080/api/livro/{livroId}
+#### DELETE: http://localhost:8080/api/livro/{id}
 
 **Body da requisição (JSON):**
 
@@ -331,7 +331,7 @@
 ### Buscar Progresso por livro
 <!---->
 **URL da requisição:**
-#### GET: http://localhost:8080/api/progresso-leitura/usuario/{livroId}
+#### GET: http://localhost:8080/api/progresso-leitura/livro/{livroId}
 
 **Body da requisição (JSON):**
 
@@ -352,7 +352,7 @@
 ### Remover Progresso 
 <!---->
 **URL da requisição:**
-#### DELETE: http://localhost:8080/api/progresso-leitura/usuario/{id}
+#### DELETE: http://localhost:8080/api/progresso-leitura/{id}
 
 **Body da requisição (JSON):**
 
@@ -511,10 +511,11 @@
 ```json
 {}
 ```
-**Responcse (JSON):**
+**Response (JSON):**
 *204 No Content*
 
 ## COBERTURA DE TESTES - 91%
 *Ferramenta Utilizada na cobertura de testes : jacoco*
-
+<!---->
+*Localizada em : booktok\target\site\jacoco\index.xml*
 
