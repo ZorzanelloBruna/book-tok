@@ -514,6 +514,7 @@
 **Responcse (JSON):**
 *204 No Content*
 
-
+## COBERTURA DE TESTES - 91%
+*Ferramenta Utilizada na cobertura de testes : jacoco*
 
 
