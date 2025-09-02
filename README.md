@@ -511,10 +511,10 @@
 ```json
 {}
 ```
-**Responcse (JSON):**
+**Response (JSON):**
 *204 No Content*
 
 ## COBERTURA DE TESTES - 91%
 *Ferramenta Utilizada na cobertura de testes : jacoco*
-
+*Localizada em : booktok\target\site\jacoco\index.xml
 
