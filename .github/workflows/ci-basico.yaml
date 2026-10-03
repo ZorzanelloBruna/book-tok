@@ -1,0 +1,31 @@
+name: 🚀 CI - BookTok
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: 🏗️ Build & Test (BookTok)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: ☕ Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven' # Mude para 'gradle' se usar Gradle
+
+      - name: 📦 Compilar e Testar com Maven
+        run: mvn clean verify
+
+      # Opcional: Se quiser verificar se o jar foi gerado corretamente para o BookTok
+      - name: 🔍 Verificar artefato gerado
+        run: ls -la target/
